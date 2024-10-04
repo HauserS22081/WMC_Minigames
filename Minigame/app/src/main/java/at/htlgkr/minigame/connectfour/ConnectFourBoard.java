@@ -2,13 +2,13 @@ package at.htlgkr.minigame.connectfour;
 
 import at.htlgkr.minigame.R;
 
-public class Board {
+public class ConnectFourBoard {
     private int[][] board;
     private final int RED = R.drawable.red_circle;
     private final int YELLOW = R.drawable.yellow_circle;
     // private final int WHITE = R.drawable.white_square;
 
-    public Board(int width, int height) {
+    public ConnectFourBoard(int width, int height) {
         board = new int[width][height];
     }
 
@@ -18,5 +18,13 @@ public class Board {
 
     public void setElement(int xCord, int yCord, int value) {
         board[xCord][yCord] = value;
+    }
+
+    public int getRED() {
+        return RED;
+    }
+
+    public int getYELLOW() {
+        return YELLOW;
     }
 }
