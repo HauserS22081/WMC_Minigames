@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,48 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
         return binding.getRoot();
     }
 
+//    @Override
+//    public void onClick(View view) {
+//        if(processing) return;
+//
+//        processing = true;
+//
+//        String description = String.valueOf(view.getContentDescription());
+//        int xCord = Integer.parseInt(description.split("_")[0]);
+//        int yCord = Integer.parseInt(description.split("_")[1]);
+//
+//        handlePlay(xCord, yCord, (ImageView) view, 0);
+//
+//    }
+
+//    private void handlePlay(int xCord, int yCord, ImageView imageView, int howManyTimesAnimated) {
+//
+//            int result = connectFour.play(xCord, yCord);
+//
+//            switch (result) {
+//                case -1: processing = false; return;
+//                case 1: setColor((ImageView) imageView, connectFour.getColor(xCord, yCord)); processing = false; return;
+//                case 2: won(); processing = false; return;
+//                case 0: {
+//                    final int finalHowManyTimesAnimated = howManyTimesAnimated;
+//                    ImageView firstView = imageViews.get(get(imageView, imageViews) + finalHowManyTimesAnimated * 6);
+//                    ImageView secondView = imageViews.get(get(imageView, imageViews) + (finalHowManyTimesAnimated + 1) * 6);
+//
+//                    final int finalYCord = yCord;
+//
+//                    new android.os.Handler().postDelayed(() -> {
+//                        setColor(firstView, connectFour.getColor(xCord, finalYCord));
+//                        setColor(secondView, connectFour.getColor(xCord, finalYCord));
+//
+//                        handlePlay(xCord, finalYCord - 1, imageView, finalHowManyTimesAnimated + 1);
+//                    }, 500);
+//
+//                }
+//            }
+//
+//
+//    }
+
     @Override
     public void onClick(View view) {
         if(processing) return;
@@ -48,37 +92,28 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
         processing = true;
 
         String description = String.valueOf(view.getContentDescription());
-        int xCord = Integer.parseInt(description.split("_")[0]);
-        int yCord = Integer.parseInt(description.split("_")[1]);
+        int viewXCord = Integer.parseInt(description.split("_")[0]);
+        int viewYCord = Integer.parseInt(description.split("_")[1]);
 
-        handlePlay(xCord, yCord, (ImageView) view, 0);
+        ImageView slot = (ImageView) view;
+
+//        connectFour.play();
+
+        int yCord = connectFour.play(viewXCord);
+
+        int image = connectFour.getImage(viewXCord, yCord);
+
+        slot.setTranslationY(-1000f);
+        slot.setImageResource(image);
+        slot.animate().translationY(1000f).setDuration(500);
 
     }
 
-    private void handlePlay(int xCord, int yCord, ImageView imageView, int howManyTimesAnimated) {
-
-            int result = connectFour.play(xCord, yCord);
-
-            switch (result) {
-                case -1: processing = false; return;
-                case 1: setColor((ImageView) imageView, connectFour.getColor(xCord, yCord)); processing = false; return;
-                case 0: {
-                    final int finalHowManyTimesAnimated = howManyTimesAnimated;
-                    ImageView firstView = imageViews.get(get(imageView, imageViews) + finalHowManyTimesAnimated * 6);
-                    ImageView secondView = imageViews.get(get(imageView, imageViews) + (finalHowManyTimesAnimated + 1) * 6);
-
-                    final int finalYCord = yCord;
-                    new android.os.Handler().postDelayed(() -> {
-                        setColor(firstView, connectFour.getColor(xCord, finalYCord));
-                        setColor(secondView, connectFour.getColor(xCord, finalYCord));
-
-                        handlePlay(xCord, finalYCord - 1, imageView, finalHowManyTimesAnimated + 1);
-                    }, 500);
-
-                }
-            }
 
 
+    private void won() {
+        Snackbar.make(binding.getRoot(), "Gewonnen", 1000);
+        setBackgroundImages();
     }
 
     private int get(ImageView view, List<ImageView> imageViews) {
