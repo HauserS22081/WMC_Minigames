@@ -1,6 +1,5 @@
 package at.htlgkr.minigame.connectfour;
 
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -22,10 +21,9 @@ import at.htlgkr.minigame.databinding.FragmentConnectFourBinding;
 public class ConnectFourFragment extends Fragment implements View.OnClickListener {
 
     private FragmentConnectFourBinding binding;
-    private List<ImageView> imageViews = new ArrayList<>();
-    private List<LinearLayout> linearLayouts = new ArrayList<>();
-    private ConnectFour connectFour = new ConnectFour();
-    private Button restartButton;
+    private final List<ImageView> imageViews = new ArrayList<>();
+    private final List<LinearLayout> linearLayouts = new ArrayList<>();
+    private final ConnectFour connectFour = new ConnectFour();
     private boolean processing = false;
 
     @Override
@@ -40,7 +38,7 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
 
         addImageViewsToList();
         addLinearLayoutsToList();
-        restartButton = binding.btRestart;
+        Button restartButton = binding.btRestart;
 
         for (LinearLayout linearLayout : linearLayouts) {
             linearLayout.setOnClickListener(this);
@@ -54,52 +52,6 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
         return binding.getRoot();
     }
 
-    private void restart() {
-
-    }
-
-//    @Override
-//    public void onClick(View view) {
-//        if(processing) return;
-//
-//        processing = true;
-//
-//        String description = String.valueOf(view.getContentDescription());
-//        int xCord = Integer.parseInt(description.split("_")[0]);
-//        int yCord = Integer.parseInt(description.split("_")[1]);
-//
-//        handlePlay(xCord, yCord, (ImageView) view, 0);
-//
-//    }
-
-//    private void handlePlay(int xCord, int yCord, ImageView imageView, int howManyTimesAnimated) {
-//
-//            int result = connectFour.play(xCord, yCord);
-//
-//            switch (result) {
-//                case -1: processing = false; return;
-//                case 1: setColor((ImageView) imageView, connectFour.getColor(xCord, yCord)); processing = false; return;
-//                case 2: won(); processing = false; return;
-//                case 0: {
-//                    final int finalHowManyTimesAnimated = howManyTimesAnimated;
-//                    ImageView firstView = imageViews.get(get(imageView, imageViews) + finalHowManyTimesAnimated * 6);
-//                    ImageView secondView = imageViews.get(get(imageView, imageViews) + (finalHowManyTimesAnimated + 1) * 6);
-//
-//                    final int finalYCord = yCord;
-//
-//                    new android.os.Handler().postDelayed(() -> {
-//                        setColor(firstView, connectFour.getColor(xCord, finalYCord));
-//                        setColor(secondView, connectFour.getColor(xCord, finalYCord));
-//
-//                        handlePlay(xCord, finalYCord - 1, imageView, finalHowManyTimesAnimated + 1);
-//                    }, 500);
-//
-//                }
-//            }
-//
-//
-//    }
-
     @Override
     public void onClick(View view) {
         if(processing) return;
@@ -109,22 +61,40 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
         String description = String.valueOf(view.getContentDescription());
         int xCord = Integer.parseInt(description.split("_")[0]);
 
-//        connectFour.play();
-
         int yCord = connectFour.play(xCord);
-        if(yCord == -1) return;
+        if(yCord == -1){
+            processing = false;
+            return;
+        }
+
 
         int image = connectFour.getImage(xCord, yCord);
 
         ImageView slot = getImageView(xCord, yCord);
-        if(slot == null) return;
+        if(slot == null){
+            processing = false;
+            return;
+        }
 
         slot.setTranslationY(-1000f);
-        slot.setImageResource(image);
+        setColor(slot, image);
         slot.animate().translationYBy(1000f).setDuration(500);
+
+        if (connectFour.hasWon(xCord, yCord)) won();
 
         processing = false;
 
+    }
+
+    private void won() {
+        Snackbar.make(binding.getRoot(), "Gewonnen", 1000).show();
+        setBackgroundImages();
+    }
+
+    private void restart() {
+        processing = false;
+        setBackgroundImages();
+        connectFour.restart();
     }
 
     private ImageView getImageView(int xCord, int yCord) {
@@ -133,18 +103,6 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
                 return imageViews.get(i);
         }
         return null;
-    }
-
-    private void won() {
-        Snackbar.make(binding.getRoot(), "Gewonnen", 1000);
-        setBackgroundImages();
-    }
-
-    private int get(ImageView view, List<ImageView> imageViews) {
-        for (int i = 0; i < imageViews.size(); i++) {
-            if(imageViews.get(i).equals(view)) return i;
-        }
-        return -1;
     }
 
     private void setColor(ImageView view, int color) {
