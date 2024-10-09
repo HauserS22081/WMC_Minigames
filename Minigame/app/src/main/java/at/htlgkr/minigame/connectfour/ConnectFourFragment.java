@@ -1,5 +1,6 @@
 package at.htlgkr.minigame.connectfour;
 
+import android.media.Image;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -18,9 +19,8 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
 
     private FragmentConnectFourBinding binding;
     private List<ImageView> imageViews = new ArrayList<>();
-
-    public ConnectFourFragment() {
-    }
+    private ConnectFour connectFour = new ConnectFour();
+    private boolean processing = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,14 +36,60 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
         for (ImageView imageView : imageViews) {
             imageView.setOnClickListener(this);
         }
-
+        setBackgroundImages();
 
         return binding.getRoot();
     }
 
     @Override
     public void onClick(View view) {
+        if(processing) return;
 
+        processing = true;
+
+        String description = String.valueOf(view.getContentDescription());
+        int xCord = Integer.parseInt(description.split("_")[0]);
+        int yCord = Integer.parseInt(description.split("_")[1]);
+
+        handlePlay(xCord, yCord, (ImageView) view, 0);
+
+    }
+
+    private void handlePlay(int xCord, int yCord, ImageView imageView, int howManyTimesAnimated) {
+
+            int result = connectFour.play(xCord, yCord);
+
+            switch (result) {
+                case -1: processing = false; return;
+                case 1: setColor((ImageView) imageView, connectFour.getColor(xCord, yCord)); processing = false; return;
+                case 0: {
+                    final int finalHowManyTimesAnimated = howManyTimesAnimated;
+                    ImageView firstView = imageViews.get(get(imageView, imageViews) + finalHowManyTimesAnimated * 6);
+                    ImageView secondView = imageViews.get(get(imageView, imageViews) + (finalHowManyTimesAnimated + 1) * 6);
+
+                    final int finalYCord = yCord;
+                    new android.os.Handler().postDelayed(() -> {
+                        setColor(firstView, connectFour.getColor(xCord, finalYCord));
+                        setColor(secondView, connectFour.getColor(xCord, finalYCord));
+
+                        handlePlay(xCord, finalYCord - 1, imageView, finalHowManyTimesAnimated + 1);
+                    }, 500);
+
+                }
+            }
+
+
+    }
+
+    private int get(ImageView view, List<ImageView> imageViews) {
+        for (int i = 0; i < imageViews.size(); i++) {
+            if(imageViews.get(i).equals(view)) return i;
+        }
+        return -1;
+    }
+
+    private void setColor(ImageView view, int color) {
+        view.setImageResource(color);
     }
 
     private void addImageViewsToList() {
@@ -91,5 +137,9 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
         imageViews.add(binding.iv64);
         imageViews.add(binding.iv65);
 
+    }
+
+    private void setBackgroundImages() {
+        imageViews.forEach(i -> setColor(i, connectFour.getBackground()));
     }
 }

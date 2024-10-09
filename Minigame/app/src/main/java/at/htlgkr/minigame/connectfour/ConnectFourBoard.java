@@ -6,7 +6,7 @@ public class ConnectFourBoard {
     private int[][] board;
     private final int RED = R.drawable.red_circle;
     private final int YELLOW = R.drawable.yellow_circle;
-    // private final int WHITE = R.drawable.white_square;
+    private final int WHITE = R.drawable.white_square;
 
     public ConnectFourBoard(int width, int height) {
         board = new int[width][height];
@@ -26,5 +26,9 @@ public class ConnectFourBoard {
 
     public int getYELLOW() {
         return YELLOW;
+    }
+
+    public int getWHITE() {
+        return WHITE;
     }
 }
