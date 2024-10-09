@@ -41,8 +41,12 @@ public class ConnectFour {
         // return: -1 if no free slot, yCord of free slot
 
 
-        for (int i = 0; i > HEIGHT; i++) {
-            if(board.getElement(xCord, i) != colors.get(0) && board.getElement(xCord, i) != colors.get(1)) return i;
+        for (int i = HEIGHT - 1; i >= 0; i--) {
+            if (board.getElement(xCord, i) != colors.get(0) && board.getElement(xCord, i) != colors.get(1)) {
+                board.setElement(xCord, i, currentColor);
+                switchCurrentColor();
+                return i;
+            }
         }
 
         return -1;
@@ -62,37 +66,33 @@ public class ConnectFour {
         resetBoard();
     }
 
-    private int placeStone(int xCord, int yCord) {
-        // 0: is still animating, 1: is not animating
-
-        int gameField = board.getElement(xCord, yCord);
-        if (!(yCord == 0 || !(gameField != colors.get(0) && gameField != colors.get(1) && board.getElement(xCord, yCord - 1) != WHITE))) {
-            board.setElement(xCord, yCord, currentColor);
-            switchCurrentColor();
-            return 1;
-        }
-
-        // hier
-
-        isAnimating = true;
-        board.setElement(xCord, yCord, currentColor);
-        if (!(yCord == 0 || !(board.getElement(xCord, yCord - 1) == colors.get(0) || board.getElement(xCord, yCord - 1) == colors.get(1)))) {
-            board.setElement(xCord, yCord - 1, WHITE);
-        }
-        return 0;
-    }
+//    private int placeStone(int xCord, int yCord) {
+//        // 0: is still animating, 1: is not animating
+//
+//        int gameField = board.getElement(xCord, yCord);
+//        if (!(yCord == 0 || !(gameField != colors.get(0) && gameField != colors.get(1) && board.getElement(xCord, yCord - 1) != WHITE))) {
+//            board.setElement(xCord, yCord, currentColor);
+//            switchCurrentColor();
+//            return 1;
+//        }
+//
+//        // hier
+//
+//        isAnimating = true;
+//        board.setElement(xCord, yCord, currentColor);
+//        if (!(yCord == 0 || !(board.getElement(xCord, yCord - 1) == colors.get(0) || board.getElement(xCord, yCord - 1) == colors.get(1)))) {
+//            board.setElement(xCord, yCord - 1, WHITE);
+//        }
+//        return 0;
+//    }
 
     private void switchCurrentColor() {
-        currentColor = colors.get(colors.get(colors.indexOf(currentColor)) + 1 % 2);
+        currentColor = colors.iterator().next();
     }
 
-    public int getColor(int xCord, int yCord) {
-        return board.getElement(xCord, yCord);
-    }
-
-    public int getBackground() {
-        return WHITE;
-    }
+//    public int getBackground() {
+//        return WHITE;
+//    }
 
     public void resetBoard() {
         for (int i = 0; i < WIDTH; i++) {

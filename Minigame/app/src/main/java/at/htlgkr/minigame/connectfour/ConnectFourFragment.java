@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -21,7 +23,9 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
 
     private FragmentConnectFourBinding binding;
     private List<ImageView> imageViews = new ArrayList<>();
+    private List<LinearLayout> linearLayouts = new ArrayList<>();
     private ConnectFour connectFour = new ConnectFour();
+    private Button restartButton;
     private boolean processing = false;
 
     @Override
@@ -35,12 +39,23 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
         // binding.etName.getText().toString();
 
         addImageViewsToList();
-        for (ImageView imageView : imageViews) {
-            imageView.setOnClickListener(this);
+        addLinearLayoutsToList();
+        restartButton = binding.btRestart;
+
+        for (LinearLayout linearLayout : linearLayouts) {
+            linearLayout.setOnClickListener(this);
         }
+
+
         setBackgroundImages();
 
+        restartButton.setOnClickListener(view -> restart());
+
         return binding.getRoot();
+    }
+
+    private void restart() {
+
     }
 
 //    @Override
@@ -92,24 +107,33 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
         processing = true;
 
         String description = String.valueOf(view.getContentDescription());
-        int viewXCord = Integer.parseInt(description.split("_")[0]);
-        int viewYCord = Integer.parseInt(description.split("_")[1]);
-
-        ImageView slot = (ImageView) view;
+        int xCord = Integer.parseInt(description.split("_")[0]);
 
 //        connectFour.play();
 
-        int yCord = connectFour.play(viewXCord);
+        int yCord = connectFour.play(xCord);
+        if(yCord == -1) return;
 
-        int image = connectFour.getImage(viewXCord, yCord);
+        int image = connectFour.getImage(xCord, yCord);
+
+        ImageView slot = getImageView(xCord, yCord);
+        if(slot == null) return;
 
         slot.setTranslationY(-1000f);
         slot.setImageResource(image);
-        slot.animate().translationY(1000f).setDuration(500);
+        slot.animate().translationYBy(1000f).setDuration(500);
+
+        processing = false;
 
     }
 
-
+    private ImageView getImageView(int xCord, int yCord) {
+        for (int i = 0; i < imageViews.size(); i++) {
+            if(imageViews.get(i).getContentDescription().equals(xCord + "_" + yCord))
+                return imageViews.get(i);
+        }
+        return null;
+    }
 
     private void won() {
         Snackbar.make(binding.getRoot(), "Gewonnen", 1000);
@@ -125,6 +149,17 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
 
     private void setColor(ImageView view, int color) {
         view.setImageResource(color);
+    }
+
+    private void addLinearLayoutsToList() {
+        linearLayouts.add(binding.llVertical0);
+        linearLayouts.add(binding.llVertical1);
+        linearLayouts.add(binding.llVertical2);
+        linearLayouts.add(binding.llVertical3);
+        linearLayouts.add(binding.llVertical4);
+        linearLayouts.add(binding.llVertical5);
+        linearLayouts.add(binding.llVertical6);
+
     }
 
     private void addImageViewsToList() {
@@ -175,6 +210,6 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
     }
 
     private void setBackgroundImages() {
-        imageViews.forEach(i -> setColor(i, connectFour.getBackground()));
+        imageViews.forEach(i -> setColor(i, 0));
     }
 }
