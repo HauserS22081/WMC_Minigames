@@ -23,26 +23,41 @@ public class ConnectFour {
         this.isBotPlaying = isBotPlaying;
 
         if (isBotPlaying) {
-            connectFourBot = new ConnectFourBot(this, board, colors.get((colors.indexOf(currentColor) + 1) % 2), currentColor);
+            connectFourBot = new ConnectFourBot(this, board, colors.get(0), colors.get(1));
         }
     }
 
     public int play(int xCord) {
+        int yCord = playWithoutSetElement(xCord);
+        if(yCord == -1) return -1;
+
+
+        board.setElement(xCord, yCord, currentColor);
+        return yCord;
+    }
+
+    public int playWithoutSetElement(int xCord) {
         int yCord = getYCord(xCord);
         if(yCord == -1) return -1;
 
-        board.setElement(xCord, yCord, currentColor);
         switchCurrentColor();
+
         return yCord;
     }
 
     public int playBot() {
-        int xCord = connectFourBot.play();
+        int xCord = connectFourBot.playBot();
 
-        return play(xCord);
+        int yCord = getYCord(xCord);
+        if(yCord == -1) return -1;
+        switchCurrentColor();
+
+        return yCord;
     }
 
     public int getYCord(int xCord) {
+        if(board.getElement(xCord, 0) != 0) return -1;
+
         for (int i = HEIGHT - 1; i >= 0; i--) {
             if (board.getElement(xCord, i) != colors.get(0) && board.getElement(xCord, i) != colors.get(1)) {
                 return i;
@@ -55,7 +70,7 @@ public class ConnectFour {
     public boolean hasWon(int xCord, int yCord) {
 
         int sum = 0;
-        int color = colors.get((colors.indexOf(currentColor) + 1) % 2);
+        int color = currentColor;
 
         // vertical
         for (int i = 0; i < HEIGHT; i++) {
@@ -134,14 +149,8 @@ public class ConnectFour {
         return (xCord == WIDTH - 1 || xCord == 0 || yCord == HEIGHT - 1 || yCord == 0);
     }
 
-//    private boolean won() {
-//        resetVariables();
-//        return true;
-//    }
-
     public void restart() {
         resetVariables();
-        resetBoard();
     }
 
     private void resetVariables() {

@@ -21,7 +21,7 @@ import at.htlgkr.minigame.databinding.FragmentConnectFourBinding;
 public class ConnectFourFragment extends Fragment implements View.OnClickListener {
 
     private FragmentConnectFourBinding binding;
-    private final boolean isBotPlaying = true;
+    private final boolean isBotPlaying = false;
     private final List<ImageView> imageViews = new ArrayList<>();
     private final List<LinearLayout> linearLayouts = new ArrayList<>();
     private final ConnectFour connectFour = new ConnectFour(isBotPlaying);
@@ -63,17 +63,17 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
         String description = String.valueOf(view.getContentDescription());
         int xCord = Integer.parseInt(description.split("_")[0]);
 
-        play(xCord);
+        playFragment(xCord);
 
         if (isBotPlaying && !hasWon) {
             xCord = connectFour.playBot();
-            play(xCord);
+            playFragment(xCord);
         }
 
         processing = false;
     }
 
-    private void play(int xCord) {
+    private void playFragment(int xCord) {
         int yCord = connectFour.play(xCord);
         if(yCord == -1){
             processing = false;
@@ -81,7 +81,7 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
         }
 
 
-        int image = connectFour.getImage(xCord, yCord);
+        int color = connectFour.getImage(xCord, yCord);
 
         ImageView slot = getImageView(xCord, yCord);
         if(slot == null){
@@ -90,7 +90,7 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
         }
 
         slot.setTranslationY(-1000f);
-        setColor(slot, image);
+        setColor(slot, color);
         slot.animate().translationYBy(1000f).setDuration(500);
 
         if (connectFour.hasWon(xCord, yCord)) won();
