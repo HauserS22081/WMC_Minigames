@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Random;
 
 public class ConnectFourBot {
-    private ConnectFour connectFour;
-    private ConnectFourBoard board;
-    private int myColor;
+    private final ConnectFour connectFour;
+    private final ConnectFourBoard board;
+    private final int myColor;
     private int myXCord;
-    private int opponentColor;
+    private final int opponentColor;
     private int opponentXCord;
     private String[] opponentsBestPlacement;
     private String[] myBestPlacement;
@@ -21,7 +21,7 @@ public class ConnectFourBot {
         this.opponentColor = opponentColor;
     }
 
-    private void play() {
+    public int play() {
         boolean validPlacement = false;
         int xCord = -1;
         int yCord = -1;
@@ -29,16 +29,18 @@ public class ConnectFourBot {
         while (!validPlacement) {
             xCord = findBestPlacement();
             yCord = connectFour.play(xCord);
-            validPlacement = yCord != -1;
+            validPlacement = yCord != -1 && xCord != -1;
         }
+
+        return xCord;
     }
 
     private int findBestPlacement() {
-        if (checkPlayer(opponentColor, opponentXCord) == -3) {
+        if (checkPlayer(opponentColor, opponentXCord, opponentsBestPlacement) == -3) {
             return opponentXCord;
         }
 
-        if (checkPlayer(myColor, myXCord) == -3) {
+        if (checkPlayer(myColor, myXCord, myBestPlacement) == -3) {
             return myXCord;
         }
 
@@ -46,7 +48,7 @@ public class ConnectFourBot {
         return random.nextInt(ConnectFour.WIDTH);
     }
 
-    private int checkPlayer(int color, int setXCord) {
+    private int checkPlayer(int color, int setXCord, String[] bestPlacement) {
         // -3: 3er Row, -2: 2er Row, -1: no row
 
         for (int xCord = 0; xCord < ConnectFour.WIDTH; xCord++) {
@@ -64,7 +66,7 @@ public class ConnectFourBot {
                     break;
                 }
 
-                if(setOpponentsBestPlacement(listOfStones, i, setXCord) == -3) return -3;
+                if(setOpponentsBestPlacement(listOfStones, i, setXCord, bestPlacement) == -3) return -3;
 
             }
 
@@ -76,7 +78,7 @@ public class ConnectFourBot {
                     break;
                 }
 
-                if(setOpponentsBestPlacement(listOfStones, i, setXCord) == -3) return -3;
+                if(setOpponentsBestPlacement(listOfStones, i, setXCord, bestPlacement) == -3) return -3;
 
             }
 
@@ -84,7 +86,7 @@ public class ConnectFourBot {
             // vertical
             listOfStones = new ArrayList<>();
             add(listOfStones, xCord, yCord);
-            for (int i = yCord - 1; i < ConnectFour.HEIGHT; i--) {
+            for (int i = yCord + 1; i < ConnectFour.HEIGHT; i++) {
 
                 if (board.getElement(xCord, i) == color) {
                     add(listOfStones, xCord, i);
@@ -92,7 +94,7 @@ public class ConnectFourBot {
                     break;
                 }
 
-                if(setOpponentsBestPlacement(listOfStones, xCord, setXCord) == -3) return -3;
+                if(setOpponentsBestPlacement(listOfStones, xCord, setXCord, bestPlacement) == -3) return -3;
             }
 
 
@@ -108,7 +110,7 @@ public class ConnectFourBot {
                     if(board.getElement(--tempXCord, --tempYCord) == color) add(listOfStones, tempXCord, tempYCord);
                     else break;
 
-                    if (setOpponentsBestPlacement(listOfStones, tempXCord, setXCord) == -3) return -3;
+                    if (setOpponentsBestPlacement(listOfStones, tempXCord, setXCord, bestPlacement) == -3) return -3;
 
                 }
 
@@ -119,7 +121,7 @@ public class ConnectFourBot {
                     if(board.getElement(++tempXCord, ++tempYCord) == color) add(listOfStones, tempXCord, tempYCord);
                     else break;
 
-                    if (setOpponentsBestPlacement(listOfStones, tempXCord, setXCord) == -3) return -3;
+                    if (setOpponentsBestPlacement(listOfStones, tempXCord, setXCord, bestPlacement) == -3) return -3;
                 }
             }
 
@@ -136,7 +138,7 @@ public class ConnectFourBot {
                     if (board.getElement(--tempXCord, ++tempYCord) == color) add(listOfStones, tempXCord, tempYCord);
                     else break;
 
-                    if (setOpponentsBestPlacement(listOfStones, tempXCord, setXCord) == -3) return -3;
+                    if (setOpponentsBestPlacement(listOfStones, tempXCord, setXCord, bestPlacement) == -3) return -3;
                 }
 
                 tempXCord = xCord;
@@ -146,7 +148,7 @@ public class ConnectFourBot {
                     if (board.getElement(++tempXCord, --tempYCord) == color) add(listOfStones, tempXCord, tempYCord);
                     else break;
 
-                    if (setOpponentsBestPlacement(listOfStones, tempXCord, setXCord) == -3) return -3;
+                    if (setOpponentsBestPlacement(listOfStones, tempXCord, setXCord, bestPlacement) == -3) return -3;
                 }
             }
         }
@@ -158,15 +160,15 @@ public class ConnectFourBot {
         list.add(xCord + "_" + yCord);
     }
 
-    private int setOpponentsBestPlacement(List<String> listOfStones, int xCord, int setXCord) {
+    private int setOpponentsBestPlacement(List<String> listOfStones, int xCord, int setXCord, String[] bestPlacement) {
 
         setXCord = xCord;
 
         if (listOfStones.size() == 3 || listOfStones.size() == 2) {
-            opponentsBestPlacement = new String[listOfStones.size()];
+            bestPlacement = new String[listOfStones.size()];
 
             for (int i = 0; i < listOfStones.size(); i++) {
-                opponentsBestPlacement[i] = listOfStones.get(i);
+                bestPlacement[i] = listOfStones.get(i);
             }
 
             if (listOfStones.size() == 3) return -3;

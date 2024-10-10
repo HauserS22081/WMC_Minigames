@@ -21,9 +21,10 @@ import at.htlgkr.minigame.databinding.FragmentConnectFourBinding;
 public class ConnectFourFragment extends Fragment implements View.OnClickListener {
 
     private FragmentConnectFourBinding binding;
+    private final boolean isBotPlaying = true;
     private final List<ImageView> imageViews = new ArrayList<>();
     private final List<LinearLayout> linearLayouts = new ArrayList<>();
-    private final ConnectFour connectFour = new ConnectFour();
+    private final ConnectFour connectFour = new ConnectFour(isBotPlaying);
     private boolean processing = false;
     private boolean hasWon = false;
 
@@ -55,13 +56,24 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-        if(processing ||hasWon) return;
+        if(processing || hasWon) return;
 
         processing = true;
 
         String description = String.valueOf(view.getContentDescription());
         int xCord = Integer.parseInt(description.split("_")[0]);
 
+        play(xCord);
+
+        if (isBotPlaying && !hasWon) {
+            xCord = connectFour.playBot();
+            play(xCord);
+        }
+
+        processing = false;
+    }
+
+    private void play(int xCord) {
         int yCord = connectFour.play(xCord);
         if(yCord == -1){
             processing = false;
@@ -82,9 +94,6 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
         slot.animate().translationYBy(1000f).setDuration(500);
 
         if (connectFour.hasWon(xCord, yCord)) won();
-
-        processing = false;
-
     }
 
     private void won() {

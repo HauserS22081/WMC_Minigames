@@ -10,13 +10,21 @@ public class ConnectFour {
     private ConnectFourBoard board;
     private final List<Integer> colors;
     private int currentColor;
+    private ConnectFourBot connectFourBot;
+    private final boolean isBotPlaying;
 
-    public ConnectFour() {
+    public ConnectFour(boolean isBotPlaying) {
         board = new ConnectFourBoard(WIDTH, HEIGHT);
         colors = List.of(board.getRED(), board.getYELLOW());
         currentColor = colors.get(0);
 
         resetBoard();
+
+        this.isBotPlaying = isBotPlaying;
+
+        if (isBotPlaying) {
+            connectFourBot = new ConnectFourBot(this, board, colors.get((colors.indexOf(currentColor) + 1) % 2), currentColor);
+        }
     }
 
     public int play(int xCord) {
@@ -26,6 +34,12 @@ public class ConnectFour {
         board.setElement(xCord, yCord, currentColor);
         switchCurrentColor();
         return yCord;
+    }
+
+    public int playBot() {
+        int xCord = connectFourBot.play();
+
+        return play(xCord);
     }
 
     public int getYCord(int xCord) {
