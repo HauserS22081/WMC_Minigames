@@ -25,6 +25,7 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
     private final List<LinearLayout> linearLayouts = new ArrayList<>();
     private final ConnectFour connectFour = new ConnectFour();
     private boolean processing = false;
+    private boolean hasWon = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +55,7 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View view) {
-        if(processing) return;
+        if(processing ||hasWon) return;
 
         processing = true;
 
@@ -88,10 +89,11 @@ public class ConnectFourFragment extends Fragment implements View.OnClickListene
 
     private void won() {
         Snackbar.make(binding.getRoot(), "Gewonnen", 1000).show();
-        setBackgroundImages();
+        hasWon = true;
     }
 
     private void restart() {
+        hasWon = false;
         processing = false;
         setBackgroundImages();
         connectFour.restart();
