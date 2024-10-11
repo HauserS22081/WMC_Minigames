@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 case MainViewModel.MEMORY: {
-                    fragmentTransaction.add(R.id.main, new MemoryFragment(), "FRAGMENT MEMORY");
+                    fragmentTransaction.replace(R.id.main, new MemoryFragment(), "FRAGMENT MEMORY");
                     fragmentTransaction.addToBackStack("");
                     break;
                 }

@@ -10,17 +10,22 @@
         android:id="@+id/bt_tictactoe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="530dp"
+        android:layout_marginBottom="10dp"
         android:text="Tic Tac Toe" />
 
     <Button
         android:id="@+id/bt_memory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:text="Memory" />
 
     <Button
         android:id="@+id/bt_connect_four"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="Connect Four" />
 </LinearLayout>

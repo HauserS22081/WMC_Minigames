@@ -3,7 +3,7 @@ package at.htlgkr.minigame.connectfour;
 import at.htlgkr.minigame.R;
 
 public class ConnectFourBoard {
-    private int[][] board;
+    private final int[][] board;
     private final int RED = R.drawable.red_circle;
     private final int YELLOW = R.drawable.yellow_circle;
     private final int WHITE = R.drawable.white_square;
