@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:layout_width="77dp"
+        android:layout_height="19dp"
+        android:layout_marginTop="40dp"
+        android:text="Memory"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="120dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <ImageView
+                android:id="@+id/iv_image00"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:contentDescription="0_0"
+                app:srcCompat="@drawable/pokemoncardback"
+                tools:srcCompat="@drawable/pokemoncardback" />
+
+            <ImageView
+                android:id="@+id/iv_image10"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:contentDescription="1_0"
+                app:srcCompat="@drawable/pokemoncardback"
+                tools:srcCompat="@drawable/pokemoncardback" />
+
+            <ImageView
+                android:id="@+id/iv_image20"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:contentDescription="2_0"
+                app:srcCompat="@drawable/pokemoncardback"
+                tools:srcCompat="@drawable/pokemoncardback" />
+
+            <ImageView
+                android:id="@+id/iv_image30"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:contentDescription="3_0"
+                app:srcCompat="@drawable/pokemoncardback"
+                tools:srcCompat="@drawable/pokemoncardback" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <ImageView
+                android:id="@+id/iv_image01"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:contentDescription="0_1"
+                app:srcCompat="@drawable/pokemoncardback"
+                tools:srcCompat="@drawable/pokemoncardback" />
+
+            <ImageView
+                android:id="@+id/iv_image11"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:contentDescription="1_1"
+                app:srcCompat="@drawable/pokemoncardback"
+                tools:srcCompat="@drawable/pokemoncardback" />
+
+            <ImageView
+                android:id="@+id/iv_image21"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:contentDescription="2_1"
+                app:srcCompat="@drawable/pokemoncardback"
+                tools:srcCompat="@drawable/pokemoncardback" />
+
+            <ImageView
+                android:id="@+id/iv_image31"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:contentDescription="3_1"
+                app:srcCompat="@drawable/pokemoncardback"
+                tools:srcCompat="@drawable/pokemoncardback" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <ImageView
+                android:id="@+id/iv_image02"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:contentDescription="0_2"
+                app:srcCompat="@drawable/pokemoncardback"
+                tools:srcCompat="@drawable/pokemoncardback" />
+
+            <ImageView
+                android:id="@+id/iv_image12"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:contentDescription="1_2"
+                app:srcCompat="@drawable/pokemoncardback"
+                tools:srcCompat="@drawable/pokemoncardback" />
+
+            <ImageView
+                android:id="@+id/iv_image22"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:contentDescription="2_2"
+                app:srcCompat="@drawable/pokemoncardback"
+                tools:srcCompat="@drawable/pokemoncardback" />
+
+            <ImageView
+                android:id="@+id/iv_image32"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:contentDescription="3_2"
+                app:srcCompat="@drawable/pokemoncardback"
+                tools:srcCompat="@drawable/pokemoncardback" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <ImageView
+                android:id="@+id/iv_image03"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:contentDescription="0_3"
+                app:srcCompat="@drawable/pokemoncardback"
+                tools:srcCompat="@drawable/pokemoncardback" />
+
+            <ImageView
+                android:id="@+id/iv_image13"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:contentDescription="1_3"
+                app:srcCompat="@drawable/pokemoncardback"
+                tools:srcCompat="@drawable/pokemoncardback" />
+
+            <ImageView
+                android:id="@+id/iv_image23"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:contentDescription="2_3"
+                app:srcCompat="@drawable/pokemoncardback"
+                tools:srcCompat="@drawable/pokemoncardback" />
+
+            <ImageView
+                android:id="@+id/iv_image33"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:contentDescription="3_3"
+                app:srcCompat="@drawable/pokemoncardback"
+                tools:srcCompat="@drawable/pokemoncardback" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/bt_restart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:text="Restart"
+        android:textColorLink="#555"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
